@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors("*"));
+app.use(cors());
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 

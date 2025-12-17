@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { textToolController } from "../controllers/textController.js";
+import { instantToolController } from "../controllers/instantToolController.js";
+import { aiToolController } from "../controllers/aiToolController.js";
 
 const router = Router();
 
-router.post("/generate", textToolController);
+// Non-AI instant text tools
+router.post("/instant", instantToolController);
+
+// AI-powered text tools
+router.post("/ai", aiToolController);
+
 
 export default router;
