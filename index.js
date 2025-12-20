@@ -4,10 +4,15 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import rateLimit from "express-rate-limit";
 
+import connectDB from "./config/database.js";
 import textRoutes from "./routes/text.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 dotenv.config();
+
+// Connect to database
+connectDB();
 
 const app = express();
 
@@ -25,6 +30,7 @@ app.use(
 
 // Routes
 app.use("/api/text", textRoutes);
+app.use("/api/auth", authRoutes);
 
 // Test route
 app.get("/", (req, res) => {

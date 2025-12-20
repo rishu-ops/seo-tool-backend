@@ -7,6 +7,7 @@ import { Document, Packer, Paragraph, TextRun } from 'docx';
 import PDFDocument from 'pdfkit';
 import { createWorker } from 'tesseract.js';
 import * as XLSX from 'xlsx';
+import crypto from 'crypto';
 
 // Word Counter
 export function countWords(text) {
@@ -346,4 +347,41 @@ export async function imageToExcel(imageBase64) {
   
   const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
   return buffer.toString('base64');
+}
+
+// JSON Formatter
+export function jsonFormatter(text, options = {}) {
+  try {
+    const parsed = JSON.parse(text);
+    const indent = options.indent || 2;
+    return JSON.stringify(parsed, null, indent);
+  } catch (error) {
+    throw new Error('Invalid JSON format');
+  }
+}
+
+// URL Encoder/Decoder
+export function urlEncoderDecoder(text, options = {}) {
+  const action = options.action || 'encode'; // 'encode' or 'decode'
+  
+  if (action === 'encode') {
+    return encodeURIComponent(text);
+  } else if (action === 'decode') {
+    try {
+      return decodeURIComponent(text);
+    } catch (error) {
+      throw new Error('Invalid URL encoding');
+    }
+  } else {
+    throw new Error('Invalid action. Use "encode" or "decode"');
+  }
+}
+
+// Hash Generator
+export function hashGenerator(text, options = {}) {
+  const algorithm = options.algorithm || 'sha256'; // 'md5', 'sha1', 'sha256', 'sha512'
+  
+  const hash = crypto.createHash(algorithm);
+  hash.update(text);
+  return hash.digest('hex');
 }

@@ -25,6 +25,9 @@ const INSTANT_TOOLS = {
   textToPdf: textUtils.textToPdf,
   imageToText: textUtils.imageToText,
   imageToExcel: textUtils.imageToExcel,
+  jsonFormatter: textUtils.jsonFormatter,
+  urlEncoderDecoder: textUtils.urlEncoderDecoder,
+  hashGenerator: textUtils.hashGenerator,
 };
 
 export async function instantToolController(req, res) {
@@ -72,6 +75,15 @@ export async function instantToolController(req, res) {
       } else if (type === "wordCombiner") {
         const separator = options?.separator || "-";
         result = await toolFunction(text, separator);
+      } else if (type === "jsonFormatter") {
+        const indent = options?.indent || 2;
+        result = await toolFunction(text, { indent });
+      } else if (type === "urlEncoderDecoder") {
+        const action = options?.action || "encode";
+        result = await toolFunction(text, { action });
+      } else if (type === "hashGenerator") {
+        const algorithm = options?.algorithm || "sha256";
+        result = await toolFunction(text, { algorithm });
       } else {
         // Default: just pass the text
         result = await toolFunction(text);
